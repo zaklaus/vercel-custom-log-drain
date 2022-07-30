@@ -3,12 +3,12 @@ const qs = require('querystring')
 const fetch = require('node-fetch')
 const fastify = require('fastify')
 const formBody = require('fastify-formbody')
-const config = require('data/config')
+const config = require('/data/config')
 
 const form = fs.readFileSync('form.html', 'utf8')
 
 async function getToken (code) {
-  const url = 'https://api.vercel.com/v2/oauth/access_token'
+  const url = `https://api.vercel.com/v2/oauth/access_token?teamId=${config.teamId}`
 
   const res = await fetch(url, {
     method: 'POST',
@@ -33,7 +33,7 @@ async function getToken (code) {
 }
 
 async function createLogDrain (token, body) {
-  const url = 'https://api.vercel.com/v1/integrations/log-drains'
+  const url = `https://api.vercel.com/v1/integrations/log-drains?teamId=${config.teamId}`
 
   const res = await fetch(url, {
     method: 'POST',
@@ -77,7 +77,12 @@ app.post('/vercel/callback', async (req, res) => {
   res.redirect(req.query.next)
 })
 
-app.listen(process.env.PORT || 8080, err => {
+app.post('/echo', async (req, res) => {
+  console.log(req.body)
+  res.code(204)
+})
+
+app.listen(process.env.PORT || 8080, '0.0.0.0', err => {
   if (err) {
     app.log.error(err)
     process.exit(1)

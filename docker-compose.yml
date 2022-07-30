@@ -1,11 +1,11 @@
-version: 3
+version: "3"
 
 services:
-  vercel-logs:
+  vercel_logs:
     build: .
-    container_name: vercel-logs
+    container_name: vercel_logs
     volumes:
-      - ./data:/usr/vercel-logs/data
+      - ./data:/data
     expose:
       - 8080
     restart: unless-stopped
