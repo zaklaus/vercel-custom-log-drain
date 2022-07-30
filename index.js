@@ -8,7 +8,7 @@ const config = require('/data/config')
 const form = fs.readFileSync('form.html', 'utf8')
 
 async function getToken (code) {
-  const url = `https://api.vercel.com/v2/oauth/access_token?teamId=${config.teamId}`
+  const url = `https://api.vercel.com/v2/oauth/access_token`
 
   const res = await fetch(url, {
     method: 'POST',
@@ -29,17 +29,17 @@ async function getToken (code) {
 
   const json = await res.json()
 
-  return json.access_token
+  return json
 }
 
-async function createLogDrain (token, body) {
-  const url = `https://api.vercel.com/v1/integrations/log-drains?teamId=${config.teamId}`
+async function createLogDrain (data, body) {
+  const url = `https://api.vercel.com/v1/integrations/log-drains?teamId=${data.team_id}`
 
   const res = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${data.access_token}`
     },
     body: JSON.stringify(body)
   })
