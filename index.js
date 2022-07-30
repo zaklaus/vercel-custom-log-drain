@@ -3,7 +3,7 @@ const qs = require('querystring')
 const fetch = require('node-fetch')
 const fastify = require('fastify')
 const formBody = require('fastify-formbody')
-const config = require('./config')
+const config = require('data/config')
 
 const form = fs.readFileSync('form.html', 'utf8')
 
